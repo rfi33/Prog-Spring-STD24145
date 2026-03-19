@@ -1,10 +1,11 @@
 package com.example.Spring_TD.Controller;
 
+import com.example.Spring_TD.Entity.Student;
 import com.example.Spring_TD.Service.StudentService;
 import lombok.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -18,5 +19,10 @@ public class StudentController {
     @GetMapping("/welcome")
     public String welcome(@RequestParam String name){
         return studentService.getWelcomeMessage(name);
+    }
+
+    @PostMapping("/students")
+    public List<Student> addStudent(@RequestBody List<Student> newStudent){
+        return studentService.addStudent(newStudent);
     }
 }
