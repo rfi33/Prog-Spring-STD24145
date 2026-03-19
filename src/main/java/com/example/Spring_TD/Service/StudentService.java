@@ -21,8 +21,8 @@ public class StudentService {
         return "Welcome" + name;
     }
 
-    public List<Student> addStudent(List<Student> newStudent){
+    public String addStudent(List<Student> newStudent){
         students.addAll(newStudent);
-        return students;
+        return students.toString();
     }
 }
