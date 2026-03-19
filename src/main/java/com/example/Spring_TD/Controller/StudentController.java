@@ -4,7 +4,6 @@ import com.example.Spring_TD.Entity.Student;
 import com.example.Spring_TD.Service.StudentService;
 import lombok.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,10 +42,21 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public String getStudent(@RequestHeader("Accept") String accept){
-        if(accept.equals("text/plain")){
-            return studentService.getStudentName();
-        }
-        return "Unsupported format";
+    public ResponseEntity<Object> getStudent(@RequestHeader("Accept") String accept){
+       try{
+           if(accept == null || accept.isEmpty()){
+               return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                       .body("ERROR : the 'Accept' header is required");
+           }
+           if (accept.equals("text/plain") || accept.equals("application/json")) {
+               return ResponseEntity.status(HttpStatus.OK)
+                       .body(studentService.getStudents());
+           }
+           return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
+                   .body("Unsupported format");
+       } catch (Exception e) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                   .build();
+       }
     }
 }
