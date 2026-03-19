@@ -3,6 +3,9 @@ package com.example.Spring_TD.Controller;
 import com.example.Spring_TD.Entity.Student;
 import com.example.Spring_TD.Service.StudentService;
 import lombok.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +20,14 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping("/welcome")
-    public String welcome(@RequestParam String name){
-        return studentService.getWelcomeMessage(name);
+    public ResponseEntity<String> welcome(@RequestParam(required = false) String name){
+        if(name == null || name.isEmpty()){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Error: the 'name' parameter is required");
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(studentService.getWelcomeMessage(name));
     }
 
     @PostMapping("/students")
