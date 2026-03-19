@@ -25,4 +25,12 @@ public class StudentService {
         students.addAll(newStudent);
         return students.toString();
     }
+
+    public String getStudentName(){
+        List<String> names = new ArrayList<>();
+        for(Student student : students){
+            names.add(student.getFirstName()+" "+student.getLastName());
+        }
+        return names.toString();
+    }
 }
